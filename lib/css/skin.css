@@ -1,0 +1,87 @@
+/*dhtmlx 自定义样式，如果有的话，启用下面的CSS引用。注意：@import 会造成略微的性能影响*/
+/*如果不希望使用import的方式，可以直接将dhtmlx的css内容直接拷贝至本文件，系统中绝大部分页面都是引用的本文件作为基本样式*/
+/*@IMPORT url("dhtmlx/dhtmlx_custom.css");*/
+
+/*skin*/
+html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,blockquote,th,td{margin:0;padding:0;}img,body,html{border:0;}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}ol,ul{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;}q:before,q:after{content:'';}
+body{font-size:12px;background-color:#fff;}
+
+/*滑动门样式的Button样式*/
+.ui-button{ text-align:center;font-size: 12px;}
+.ui-button a{ display:inline-block; background:url(images/button.gif) no-repeat left top; text-decoration:none; padding-left:5px; color:#333;}
+.ui-button a:hover{ background:url(images/button.gif) no-repeat left -21px; color:#FFF;}
+.ui-button a span{display:inline-block; background:url(images/button.gif) no-repeat right top;height:21px;line-height:21px;padding-right:5px; cursor:pointer;}
+.ui-button a:hover span{ background:url(images/button.gif) no-repeat right -21px;}
+
+.ui-button-light{ text-align:center;font-size: 12px;}
+.ui-button-light a{ display:inline-block; background:url(images/button_light.gif) no-repeat left top; text-decoration:none; padding-left:5px; color:#333;}
+.ui-button-light a:hover{ background:url(images/button_light.gif) no-repeat left -20px; color:#333;}
+.ui-button-light a span{display:inline-block; background:url(images/button_light.gif) no-repeat right top;height:20px;line-height:20px;padding-right:5px; cursor:pointer;}
+.ui-button-light a:hover span{ background:url(images/button_light.gif) no-repeat right -20px;}
+
+.clear {clear: both; height: 0px; margin: 0px; padding: 0px; display: block; line-height: 0px; margin-top: -1px;}
+.link {cursor: pointer;color: blue;margin: 2px; line-height: 18px;}
+.left {float: left;}
+.right {float: right;}
+.blank{width: 20px;}
+.template{display: none;}
+.fadeout{visibility: hidden;}
+.fadein{visibility: visible;}
+.block {display: block;}
+.editable {cursor: text;}
+.mouseover{background-color: #E3E9FF;}
+.loading {width: 32; height: 32;background-image: url("images/ajax-loader.gif"); background-repeat: no-repeat;}
+.paragraph {text-indent: 24px; line-height: 14px;}
+.paragraph em {color: blue; font-family: '黑体',Tahoma;}
+.description{font-size: 12px; color: #666;}
+.description .paragraph {line-height: 20px;}
+.br {display: block; min-height: 12px; height: 12px; border: 0px;}
+.control-label {font: 12px 微软雅黑;padding-left: 5px;color: #4174D9;}
+.control-label span {margin-left: 5px;}
+.control-label span:hover {text-decoration: underline;cursor: pointer;}
+
+.font-bold{font-weight: bold;}
+.font-highlight{}
+.font-warning{color: #7a0216;}
+.font-selected{font-weight: bold; color: #333}
+.title {font-family: 'Microsoft Yahei', 微软雅黑, Tahoma, Arial, Helvetica, STHeiti; font-size: 14px; line-height: 24px;color: #333;}
+.title .link {font-size: 12px;}
+
+.ui-hide {display: none;}
+
+.ui-bbox {border: 1px solid #ACD1EB;padding: 3px;background: #E7F2F9;zoom: 1;}
+.ui-bbox .ui-content {background: white;padding: 5px;}
+.ui-bbox .title {margin-top: -2px;}
+
+.ui-box {padding: 5px; margin-bottom: 3px;}
+.ui-box-light {border: 3px solid #C2CFF1; background-color: #F4F8FF;color: #333;}
+.ui-box-light-inner {color: #555; border: 3px solid #EAF2FF;}
+
+.ui-box li {padding: 3px; cursor: pointer;}
+.ui-box input, .ui-box select {background-color: white;}
+
+.ui-mbox {margin: 0px auto;white-space: nowrap;}
+.ui-mbox {padding : 5px;background: rgb(249, 237, 190);border: 1px solid rgb(240, 195, 109);color: rgb(34, 34, 34);font-size: 12px;font-weight: normal;}
+.ui-mbox {border-radius: 2px;box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);-webkit-border-radius: 2px;-moz-border-radius: 2px;-webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);-moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);-webkit-transition: all .218s;-moz-transition: all .218s;}
+
+/**List*/
+.ui-list {padding: 5px;font-family: 微软雅黑;}
+.ui-list li,.ui-list-item {
+cursor: pointer; border-bottom: 1px solid #F1F1F1;padding-left: 4px; padding-top: 6px; padding-bottom: 6px;
+}
+
+/*细线表格*/
+.ui-widget-table table{border-collapse:collapse;border-spacing:0;border-left:1px solid #C2CFF1;border-top:1px solid #C2CFF1; background-color: white;}
+.ui-widget-table th, .ui-widget-table td{border-right:1px solid #C2CFF1;border-bottom:1px solid #C2CFF1;padding:2px;}
+.ui-widget-table thead{font-weight: bold;}
+
+.ui-corner {border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;-webkit-transition: all .318s;-moz-transition: all .318s;}
+
+.ui-shadow {box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);-webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);-moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);}
+
+.ui-widget-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%;background: #eeeeee; opacity: .80;filter:Alpha(Opacity=80); }
+
+.ui-widget-cusp { border: 6px solid #C2CFF1; width: 0px; height: 0px; display: block; overflow: hidden;}
+.ui-widget-cusp .ui-widget-cusp-bottom { border-width: 6px;}
+
+.ui-blank {margin-right: 15px;}

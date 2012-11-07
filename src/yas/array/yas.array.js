@@ -34,6 +34,8 @@ yas.array = function() {
 	 * 数组转换
 	 */
 	this.nativeMap  		= this.ArrayProto.map;
+	
+	this.nativeFilter		= this.ArrayProto.filter
 	/**
 	 * 指定元素索引位置
 	 */
@@ -125,13 +127,32 @@ yas.array.prototype = {
 		return result.value;
 	},
 	/**
-	 * 
+	 * 差位补0,保留符号
+	 * @param {Number} num 待补0数字
+	 * @param {Number} n 长度
+	 * @return {String} 补0的字符串
 	 */
-	pad : function() {
-	
+	pad : function(num, n) {
+		var len = num.toString().length, pre=[], negative = (num < 0 ? '-' : '');
+		if(len >= n) return num.toString();
+		return negative + Array(n - len + 1).join(0) + Math.abs(num);
 	},
-	empty : function() {
-	
+	/**
+	 * 清空数组
+	 * @param {Array} source 原数组
+	 * @return {Array} 空数组
+	 */
+	empty : function(source) {
+		source.length = 0;
+		return source;
+	},
+	/**
+	 * 移除数据项
+	 * @param {Object} item 要移除的数据匹配项
+	 * @return {Array} 操作后的数组
+	 */
+	remove: function(item) {
+		
 	},
 	/**
 	 * 判断对象是否是数组

@@ -47,7 +47,7 @@ yas.array = function() {
 	/**
 	 * 是否是数组
 	 */
-	this.nativeIsArray   	= this.ArrayProto.isArray;
+	this.nativeIsArray   	= Array.isArray;
 };
 
 yas.array.prototype = {
@@ -159,7 +159,7 @@ yas.array.prototype = {
 	 * @param {Object} source 待判断对象
 	 * @return {Boolean} 是否是数组
 	 */
-	isArray : nativeIsArray || function(source) {
+	isArray : this.nativeIsArray || function(source) {
 		return this.toString.call(source) === '[object Array]';
 	}
 };

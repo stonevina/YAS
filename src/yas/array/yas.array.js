@@ -59,16 +59,24 @@ yas.array.prototype = {
 	 */
 	each : function(source, iterator, context) {
 		if(!!source && (typeof iterator !== 'function')) return;
-		if(this.nativeForEach === source.forEach) {
+		if(this.nativeForEach && this.nativeForEach === source.forEach) {
 			source.forEach(iterator, context);		
 		} else if(source.length === +source.length) {
-			for(var l = source.length; l--;) {
-				if(iterator.call(context, source[l], l, source) === this.breaker) return;
+			/**
+			 * tip: 使用逆序输出方式，ie7，8和ie9+显示的结果不一致，
+			 * ie9没有逆序输出(按照forEach方式),ECMAScript+
+			 * 建议不要采用逆序方式，以防止结果不一致！！
+			 * for(var l = source.length; l--;) {
+			 * 	  
+			 * }
+			 */
+			for(var i = 0, l = source.length; i < l; i++) {
+				if(iterator.call(context, source[i], i, source) === this.breaker) return;
 			}
 		} else {
 			//针对对象
 			for(var key in source) {
-				//只处理原始的属性
+				//只处理原始的属性,不处理prototype的属性
 				if(this.hasOwnProperty.call(source, key)) {
 					if(iterator.call(context, source[key], key, source) === this.breaker) return;
 				}
@@ -85,7 +93,7 @@ yas.array.prototype = {
 	map : function(source, iterator, context) {
 		var results = [];
 		if(!!source && (typeof iterator !== 'function')) return;
-		if(this.nativeMap === source.map) {
+		if(this.nativeMap && this.nativeMap === source.map) {
 			return source.map(iterator, context);		
 		} else {
 			this.each(source, function(value, index, list) {
@@ -103,10 +111,10 @@ yas.array.prototype = {
 	max : function(source, iterator, context) {
 		if(!iterator && this.isArray(source)) return Math.max.apply(Math, source);
 		if(!iterator && !!source) return -Infinity;
-		var result = {computed : -Infinity};
+		var result = { computed : -Infinity };
 		this.each(source, function(value, index, list) {
 			var computed = iterator ? iterator(contex, value, index, list) : value;
-			computed >= result.computed && (result = {value : value, computed : computed});
+			computed >= result.computed && (result = { value : value, computed : computed });
 		});
 		return result.value;
 	},
@@ -119,10 +127,10 @@ yas.array.prototype = {
 	min : function(source, iterator, context) {
 		if(!iterator && this.isArray(source)) return Math.min.apply(Math, source);
 		if(!iterator && !!source) return Infinity;
-		var result = {computed : Infinity};
+		var result = { computed : Infinity };
 		this.each(source, function(value, index, list) {
 			var computed = iterator ? iterator(contex, value, index, list) : value;
-			computed < result.computed && (result = {value : value, computed : computed});
+			computed < result.computed && (result = { value : value, computed : computed });
 		});
 		return result.value;
 	},
@@ -147,11 +155,113 @@ yas.array.prototype = {
 		return source;
 	},
 	/**
-	 * 移除数据项
+	 * 返回指定元素的索引位置，找不到则返回-1
+	 * @param {Array} source 目标数组
+	 * @param {Objec} item 指定元素
+	 * @return {Number} 索引位置
+	 */
+	indexOf : function(source, item) {
+		if(this.nativeIndexOf && this.nativeIndexOf == source.indexOf) {
+			return source.indexOf(item);
+		} else {
+			for(var i = 0, l = source.length; i < l; i++) {
+				if(source[i] == item) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	},
+	/**
+	 * 从后往前查找指定元素的索引位置,找不到则返回-1
+	 * @param {Array} source 目标数组
+	 * @param {Objec} item 指定元素
+	 * @return {Number} 索引位置
+	 */
+	lastIndexOf : function(source, item) {
+		if(this.nativeLastIndexOf && this.nativeLastIndexOf == source.lastIndexOf) {
+			return source.lastIndexOf(item);
+		} else {
+			for(var l = source.length; l--;) {
+				if(source[l] == item) {
+					return l;
+				}
+			}
+		}
+		return -1;
+	},
+	/**
+	 * 移除匹配数据项（可移除多个）
+	 * @param {Array} source 原始数组对象
 	 * @param {Object} item 要移除的数据匹配项
 	 * @return {Array} 操作后的数组
 	 */
-	remove: function(item) {
+	remove: function(source, item) {
+		var n = source.length;
+		while(n--) {
+			var index = this.indexOf(source, item);
+			if(index != -1) {
+				source.splice(index, 1);
+			}
+		}
+		return source;
+	},
+	/**
+	 * 删除指定索引的元素
+	 * @param {Array} source 原始数组对象
+	 * @param {Number} index 指定的索引
+	 * @return {Array} 操作后的数组
+	 */
+	removeByIndex : function(source, index) {
+		source.splice(index, 1);
+		return source;
+	},
+	/**
+	 * 过滤数组
+	 * @param {Array} source 待过滤的数组
+	 * @param {Function} iterator 过滤的方式
+	 * @param {Object} context 上下文环境
+	 * @return {Array} 过滤后的数组
+	 */
+	filter : function(source, iterator, context) {
+		var results = [];
+		if(!!source && (typeof iterator !== 'function')) return;
+		if(this.nativeFilter && this.nativeFilter === source.filter) {
+			return source.filter(iterator, context);		
+		} else {
+			this.each(source, function(value, index, list) {
+				if(iterator.call(context, value, index, list)) {
+					results[results.length] = value;
+				}
+			});
+		}
+		return results;
+	},
+	/**
+	 * 获取复合条件的第一个元素，没有符合条件的则返回undefined
+	 * @param {Array} source 目标元素
+	 * @param {Function} iterator 条件
+	 * @param {Object} context 上下文环境
+	 * @return {Object} 复合条件的元素
+	 */
+	find : function(source, iterator, context) {
+		return this.filter(source, iterator, context)[0];
+	},
+	/**
+	 * 判断指定的元素是否在目标数组中
+	 * @param {Array} source 目标数组
+	 * @param {Object} item 指定元素
+	 * @return {Boolean} 是否在目标数组中
+	 */
+	contains : function(source, item) {
+		return (this.indexOf(source, item) != -1);
+	},
+	/**
+	 * 去掉数组中的重复项
+	 * @param {Array} source 原始数组
+	 * @return {Array} 操作后的数组
+	 */
+	unique : function(source) {
 		
 	},
 	/**

@@ -110,3 +110,23 @@ QUnit.test( 'yas.array.contains', function( assert ) {
  	
     assert.equal( result, true, 'yas.array.contains([1, 2, 3, 4, 5, 6], 4) is true' );
 });
+
+//yas.array.unique
+QUnit.test( 'yas.array.unique', function( assert ) {
+	
+	var numbers = [1, 3, 2, 1, 2, 3];
+	var $ = new yas.array();
+	var result = $.unique(numbers);
+ 	
+    deepEqual( result, [1, 3, 2], 'yas.array.unique([1, 3, 2, 1, 2, 3]) is [1, 3, 2]' );
+});
+
+//yas.array.rest
+QUnit.test( 'yas.array.rest', function( assert ) {
+	
+	var numbers = [1, 3, 2, 1, 2, 3];
+	var $ = new yas.array();
+	var result = $.rest(numbers,3);
+ 	
+    deepEqual( result, [1, 2, 3], 'yas.array.rest([1, 3, 2, 1, 2, 3]) is [1, 2, 3]' );
+});

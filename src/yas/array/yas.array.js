@@ -259,9 +259,50 @@ yas.array.prototype = {
 	/**
 	 * 去掉数组中的重复项
 	 * @param {Array} source 原始数组
+	 * @param {Function} compareFn 比较数组函数
 	 * @return {Array} 操作后的数组
 	 */
-	unique : function(source) {
+	unique : function(source, compareFn) {
+		var len = source.length,
+			result = source.slice(0);
+			
+		if(typeof compareFn != 'function') {
+			compareFn = function(item1, item2) {
+				return item1 === item2;
+			};
+		}
+		//采用这种方式比len--少一次遍历
+		while(--len > 0) {
+			var data = result[len],
+				i = len;
+			//不能采用--i > 0方式，否则会造成拿不到第一个元素
+			while(i--) {
+				//从数组的倒数第二位开始比较
+				if(compareFn(result[i], data)) {
+					result.splice(len, 1);
+					break;
+				}
+			}
+		}
+		return result;
+	},
+	/**
+	 * 返回指定区间的数组，不指定index则默认除去第一个元素
+	 * @param {Array} source 目标数组
+	 * @param {Number} index 开始的下标
+	 * @return {Array} 新数组
+	 */
+	rest : function(source, index) {
+		index = index ? index : 1;
+		return source.slice(index);
+	},
+	/**
+	 * 判断数组中所有的元素是否都满足给定条件
+	 * @param {Array} source 目标数组
+	 * @param {Function} iterator 条件函数
+	 * @return {Boolean} 是否满足
+	 */
+	every : function(source, iterator) {
 		
 	},
 	/**

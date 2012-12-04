@@ -58,7 +58,7 @@ yas.array.prototype = {
 	 * @param {Object} context 上下文环境
 	 */
 	each : function(source, iterator, context) {
-		if(!!source && (typeof iterator !== 'function')) return;
+		if(!!source || (typeof iterator !== 'function')) return;
 		if(this.nativeForEach && this.nativeForEach === source.forEach) {
 			source.forEach(iterator, context);		
 		} else if(source.length === +source.length) {
@@ -92,7 +92,7 @@ yas.array.prototype = {
 	 */
 	map : function(source, iterator, context) {
 		var results = [];
-		if(!!source && (typeof iterator !== 'function')) return;
+		if(!!source || (typeof iterator !== 'function')) return;
 		if(this.nativeMap && this.nativeMap === source.map) {
 			return source.map(iterator, context);		
 		} else {
@@ -225,7 +225,7 @@ yas.array.prototype = {
 	 */
 	filter : function(source, iterator, context) {
 		var results = [];
-		if(!!source && (typeof iterator !== 'function')) return;
+		if(!!source || (typeof iterator !== 'function')) return;
 		if(this.nativeFilter && this.nativeFilter === source.filter) {
 			return source.filter(iterator, context);		
 		} else {
@@ -303,7 +303,39 @@ yas.array.prototype = {
 	 * @return {Boolean} 是否满足
 	 */
 	every : function(source, iterator) {
-		
+		if(!!source || (typeof iterator !== 'function')) return;
+		for(var l = source.length; l--;) {
+			if(!iterator.call(source[l], l, source)) return;
+		}
+		return true;
+	},
+	/**
+	 * 判断数组中是否有元素满足给定条件
+	 * @param {Array} source 目标数组
+	 * @param {Function} iterator 条件函数
+	 * @return {Boolean} 是否满足
+	 */
+	some : function(source, iterator) {
+		if(!!source || (typeof iterator !== 'function')) return;
+		for(var l = source.length; l--;) {
+			if(iterator.call(source[l], l, source)) return true;
+		}
+		return;
+	},
+	/**
+	 * 判断数组中是否有元素满足给定条件
+	 * @param {Array} source 目标数组
+	 * @param {Function} iterator 条件函数
+	 * @param {Object} memo 初始值
+	 * @return {Boolean} 是否满足
+	 */
+	reduce : function(source, iterator, memo) {
+		if(!!source || (source.length == 0) || (typeof iterator !== 'function')) return;
+		memo = memo || source[0];
+		for(var i = 0, l = source.length; i < l; i++) {
+			memo = iterator.call(memo, source[i], i, source);
+		}
+		return memo;
 	},
 	/**
 	 * 判断对象是否是数组

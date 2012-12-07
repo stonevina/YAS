@@ -58,7 +58,7 @@ yas.array.prototype = {
 	 * @param {Object} context 上下文环境
 	 */
 	each : function(source, iterator, context) {
-		if(!!source || (typeof iterator !== 'function')) return;
+		if(this.isEmpty(source) || (typeof iterator !== 'function')) return;
 		if(this.nativeForEach && this.nativeForEach === source.forEach) {
 			source.forEach(iterator, context);		
 		} else if(source.length === +source.length) {
@@ -92,7 +92,7 @@ yas.array.prototype = {
 	 */
 	map : function(source, iterator, context) {
 		var results = [];
-		if(!!source || (typeof iterator !== 'function')) return;
+		if(this.isEmpty(source) || (typeof iterator !== 'function')) return false;
 		if(this.nativeMap && this.nativeMap === source.map) {
 			return source.map(iterator, context);		
 		} else {
@@ -110,7 +110,7 @@ yas.array.prototype = {
 	 */
 	max : function(source, iterator, context) {
 		if(!iterator && this.isArray(source)) return Math.max.apply(Math, source);
-		if(!iterator && !!source) return -Infinity;
+		if(!iterator && this.isEmpty(source)) return -Infinity;
 		var result = { computed : -Infinity };
 		this.each(source, function(value, index, list) {
 			var computed = iterator ? iterator(contex, value, index, list) : value;
@@ -126,7 +126,7 @@ yas.array.prototype = {
 	 */
 	min : function(source, iterator, context) {
 		if(!iterator && this.isArray(source)) return Math.min.apply(Math, source);
-		if(!iterator && !!source) return Infinity;
+		if(!iterator && this.isEmpty(source)) return Infinity;
 		var result = { computed : Infinity };
 		this.each(source, function(value, index, list) {
 			var computed = iterator ? iterator(contex, value, index, list) : value;
@@ -225,7 +225,7 @@ yas.array.prototype = {
 	 */
 	filter : function(source, iterator, context) {
 		var results = [];
-		if(!!source || (typeof iterator !== 'function')) return;
+		if(this.isEmpty(source) || (typeof iterator !== 'function')) return false;
 		if(this.nativeFilter && this.nativeFilter === source.filter) {
 			return source.filter(iterator, context);		
 		} else {
@@ -303,9 +303,9 @@ yas.array.prototype = {
 	 * @return {Boolean} 是否满足
 	 */
 	every : function(source, iterator) {
-		if(!!source || (typeof iterator !== 'function')) return;
+		if(this.isEmpty(source) || (typeof iterator !== 'function')) return false;
 		for(var l = source.length; l--;) {
-			if(!iterator.call(source[l], l, source)) return;
+			if(!iterator.call(source, source[l], l, source)) return false;
 		}
 		return true;
 	},
@@ -316,24 +316,26 @@ yas.array.prototype = {
 	 * @return {Boolean} 是否满足
 	 */
 	some : function(source, iterator) {
-		if(!!source || (typeof iterator !== 'function')) return;
+		if(this.isEmpty(source) || (typeof iterator !== 'function')) return false;
 		for(var l = source.length; l--;) {
-			if(iterator.call(source[l], l, source)) return true;
+			//iterator调用的参数中是从call的第二个参数开始的，call的第一个参数用于context
+			if(iterator.call(source, source[l], l, source)) return true;
 		}
-		return;
+		//return !== return false;一个是undefined,一个是 false
+		return false;
 	},
 	/**
-	 * 判断数组中是否有元素满足给定条件
+	 * 按照指定的方法合并数组
 	 * @param {Array} source 目标数组
 	 * @param {Function} iterator 条件函数
 	 * @param {Object} memo 初始值
-	 * @return {Boolean} 是否满足
+	 * @return {Ojbect} 合并后的对象
 	 */
 	reduce : function(source, iterator, memo) {
-		if(!!source || (source.length == 0) || (typeof iterator !== 'function')) return;
-		memo = memo || source[0];
-		for(var i = 0, l = source.length; i < l; i++) {
-			memo = iterator.call(memo, source[i], i, source);
+		if(this.isEmpty(source)  || (typeof iterator !== 'function')) return false;
+		var i = 0, memo = memo || (i = 1, source[0]);
+		for(l = source.length; i < l; i++) {
+			memo = iterator.call(source, memo, source[i], i, source);
 		}
 		return memo;
 	},
@@ -344,5 +346,29 @@ yas.array.prototype = {
 	 */
 	isArray : this.nativeIsArray || function(source) {
 		return this.toString.call(source) === '[object Array]';
+	},
+	/**
+	 * 判断对象是否是字符串
+	 * @param {Object} source 待判断对象
+	 * @return {Boolean} 是否是字符串
+	 */
+	isString : function(source) {
+		return this.toString().call(source) === '[object String]';
+	},
+	/**
+	 * 判断对象是否为空
+	 * @param {Object} source 待判断对象
+	 * @return {Boolean} 是否为空
+	 */
+	isEmpty : function(source) {
+		if(this.isArray(source) || this.isString(source)) {
+			return source.length == 0;
+		}
+		for(var key in obj) {
+			if(this.hasOwnProperty.call(obj, key)) {
+				return false;
+			}
+		}
+		return true;
 	}
 };

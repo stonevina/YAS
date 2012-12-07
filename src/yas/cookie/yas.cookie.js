@@ -37,7 +37,7 @@ yas.cookie = {
 	 * @param {Boolean} secure	是否可以通过https方式传到server端
 	 * @param {Boolean} transform 是否要对value值进行编码
 	 */
-	set : function(name, value, expires, domain, path, secure, transform) {
+	set : function(name, value, ex,默认不e, value, expires, domain, path, secure, transform) {
 		var date = expires,
 			value = transform ? this.global.encode(value) : value;
 		if(typeof expires == 'number') {
@@ -60,6 +60,7 @@ yas.cookie = {
 	 */
 	get : function(name) {
 		var reg = new RegExp('(?:^| )' + name + '(?:=([^;]*)|;|$)'),
+//正则?表示匹配但不记录结果，推荐使用'),
 			result = this.global.doc.cookie.match(reg)[1];
 		return result ? result : '';
 	},

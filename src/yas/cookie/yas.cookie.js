@@ -16,7 +16,6 @@ var yas = yas || {};
 yas.cookie = {
 	/**
 	 * cookie内部变量
-	 * @type 
 	 */
 	global : {
 		encode : encodeURIComponent,
@@ -36,7 +35,7 @@ yas.cookie = {
 	 * @param {Boolean} secure	是否可以通过https方式传到server端
 	 * @param {Boolean} transform 是否要对value值进行编码
 	 */
-	set : function(name, value, ex,默认不e, value, expires, domain, path, secure, transform) {
+	set : function(name, value, expires, domain, path, secure, transform) {
 		var date = expires,
 			value = transform ? this.global.encode(value) : value;
 		if(typeof expires == 'number') {

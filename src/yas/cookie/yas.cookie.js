@@ -18,8 +18,7 @@ yas.cookie = {
 	 * cookie内部变量
 	 * @type 
 	 */
-	global : {
-		//编码
+	glob��码
 		encode : encodeURIComponent,
 		//解码
 		decode : decodeURIComponent,

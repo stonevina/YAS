@@ -132,22 +132,31 @@ QUnit.test( 'yas.array.rest', function( assert ) {
 });
 
 //yas.array.some
-QUnit.test( 'yas.array.some   deepEqual( result, [1, 2, 3], 'yas.array.rest([1, 3, 2, 1, 2, 3]) is [1, 2, 3]' );
-});some(numbers, function(num) { return num < 2; });
+QUnit.test( 'yas.array.some', function( assert ) {
+	
+	var numbers = [1, 3, 2, 1, 2, 3];
+	var $ = new yas.array();
+	var result = $.some(numbers, function(num) { return num < 2; });
  	
     deepEqual( result, true, 'yas.array.some([1, 3, 2, 1, 2, 3]) is true' );
 });
 
 //yas.array.every
-QUnit.test( 'yas.array.every   deepEqual( result, [1, 2, 3], 'yas.array.rest([1, 3, 2, 1, 2, 3]) is [1, 2, 3]' );
-});every(numbers, function(num) { return num < 2; });
+QUnit.test( 'yas.array.every', function( assert ) {
+	
+	var numbers = [1, 3, 2, 1, 2, 3];
+	var $ = new yas.array();
+	var result = $.every(numbers, function(num) { return num < 2; });
  	
     deepEqual( result, false, 'yas.array.every([1, 3, 2, 1, 2, 3]) is false' );
 });
 
 //yas.array.reduce
-QUnit.test( 'yas.array.reduce   deepEqual( result, [1, 2, 3], 'yas.array.rest([1, 3, 2, 1, 2, 3]) is [1, 2, 3]' );
-});duce(numbers, function(memo, num) { return memo + num; }, 1 );
+QUnit.test( 'yas.array.reduce', function( assert ) {
+	
+	var numbers = [1, 3, 2, 1, 2, 3];
+	var $ = new yas.array();
+	var result = $.reduce(numbers, function(memo, num) { return memo + num; }, 1);
  	
     deepEqual( result, 13, 'yas.array.reduce([1, 3, 2, 1, 2, 3]) is 13' );
 });

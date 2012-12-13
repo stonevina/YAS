@@ -196,7 +196,7 @@ yas.array.prototype = {
 	 * @param {Object} item 要移除的数据匹配项
 	 * @return {Array} 操作后的数组
 	 */
-	remove: function(source, item) {
+	remove : function(source, item) {
 		var n = source.length;
 		while(n--) {
 			var index = this.indexOf(source, item);

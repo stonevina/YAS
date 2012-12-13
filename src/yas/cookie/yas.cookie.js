@@ -18,7 +18,7 @@ yas.cookie = {
 	 * cookie内部变量
 	 * @type 
 	 */
-	glob��码
+	global : {
 		encode : encodeURIComponent,
 		//解码
 		decode : decodeURIComponent,
@@ -58,8 +58,8 @@ yas.cookie = {
 	 * @return {String} value cookie值
 	 */
 	get : function(name) {
+		//正则?表示匹配但不记录结果，推荐使用
 		var reg = new RegExp('(?:^| )' + name + '(?:=([^;]*)|;|$)'),
-//正则?表示匹配但不记录结果，推荐使用'),
 			result = this.global.doc.cookie.match(reg)[1];
 		return result ? result : '';
 	},

@@ -1,0 +1,1 @@
+content: 两列固定宽度，左窄右宽，注意IE的quirks模式

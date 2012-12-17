@@ -1,0 +1,20 @@
+body {
+	margin: 0px;
+	padding: 0px;
+}
+
+.yas-container {
+	width: 900px;
+	margin: 0 auto;
+}
+
+.yas-head {
+	height: 100px;
+	background-color: #43CD80;
+}
+
+.yas-main {
+	height: 300px;
+	background-color: #4876FF;
+	margin-top: 20px;
+}

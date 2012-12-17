@@ -6,7 +6,7 @@
  * 	<li>name相同、domain不同、path不同，则cookie也不同</li>
  * 	<li>name相同、domain相同、path相同，expires不同，则cookie相同</li>
  * <ul>
- * 目前方法只支持删除通过set方式添加的cookie，咱不支持跨域删除cookie，测试发现，设置path后，可能会造成无法删除cookie
+ * 目前方法只支持删除通过set方式添加的cookie，暂不支持跨域删除cookie，测试发现，设置path后，可能会造成无法删除cookie
  * @author wt
  * @version 1.0
  * @since 2012-12-03

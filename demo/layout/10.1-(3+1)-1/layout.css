@@ -1,0 +1,54 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+}
+
+/**
+*在IE的quirks的模式下，margin：0 auto;居中失效
+*解决方法：body { text-align: center }; # { content: text-align: left }
+**/
+# {
+    content: text-align: left
+}
+
+.yas-container {
+    width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.yas-header {
+    height: 50px;
+    background-color: #f89406;
+}
+
+.yas-content {
+    /**父元素建议定义高度，这样处于父元素的相邻元素不用考虑此父元素的高度，如不定义，相邻元素需要考虑高度，且IE quirks模式异常**/
+    height: 500px;
+    margin-top: 5px;
+}
+
+/**
+*子元素貌似不可以继承父元素的height属性，必须在子元素中声明
+**/
+.yas-sidebar {
+    width: 200px;
+    height: 500px;
+    background-color: #43CD80;
+    float: right;
+}
+
+.yas-main {
+    width: 695px;
+    height: 500px;
+    background-color: #4876FF;
+    /*因为是固定宽度，采用左右浮动方法可有效避免ie 3像素bug*/
+    float: left;
+}
+
+.yas-footer {
+    height: 50px;
+    margin-top: 5px;
+    background-color: #C6E746;
+}

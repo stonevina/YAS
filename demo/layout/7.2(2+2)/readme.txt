@@ -1,0 +1,1 @@
+content: 两列固定宽度，居中平分型，注意IE的quirks模式

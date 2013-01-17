@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>内容垂直居中</title>
+    <style type="text/css">
+        html, body, div, h1, h2, h3, h4 {
+            margin: 0px 0px;
+            padding: 0px;
+        }
+        .yas-font {
+            font: 12px/12px "Microsoft Yahei";
+        }
+        .title {
+            width: 30%;
+            margin: 10px 5px;
+            color: white;
+            font: 14px/16px "Microsoft Yahei";
+            background-color: #66CDAA;
+            border: 1px solid #71C671;
+            border-radius: 2px;
+        }
+        .tip {
+            width: 30%;
+            margin: 10px 5px;
+            padding: 5px;
+            border: 1px dashed #f0f8ff;
+            border-radius: 2px;
+            background-color: #5CACEE;
+        }
+        .container {
+            width: 300px;
+            margin-left: 5px;
+            border: 1px solid #87ceeb;
+            background-color: #fffafa;
+        }
+        .demo1 {
+            line-height: 4em;
+            height: 4em;
+            overflow: hidden;
+        }
+        .demo2 {
+            padding: 20px 0px;
+        }
+        .demo3 {
+            display: table-cell;
+            height: 300px;
+            width: 200px;
+            vertical-align: middle;
+        }
+        .yas-ie-demo1 {
+            height: 300px;
+            _position: relative;
+            +position: relative;
+        }
+        .yas-ie-demo2 {
+            _position: absolute;
+            +position: absolute;
+            top: 50%;
+            left: 0px;
+        }
+        .yas-ie-demo3 {
+            _position: relative;
+            +position: relative;
+            top: -50%;
+            left: 0px;
+        }
+        .demo5 > div > div > div {
+            display: table-cell;
+            height: 300px;
+            width: 200px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+    <body>
+        <!--方案1-->
+        <h4 class="yas-font title">方案一：单行文本</h4>
+        <div class="demo1 container">Hello World!!</div>
+        <div class="tip yas-font">只适合单行文本，对于非文本对象无效</div>
+
+        <!--方案2-->
+        <h4 class="yas-font title">方案二：多行文本</h4>
+        <div class="demo2 container">
+            <p>Hello World</p>
+            <p>Hello World</p>
+            <p>Hello World</p>
+        </div>
+        <div class="tip yas-font">不能给定一个固定高度</div>
+
+        <!--方案3-->
+        <h4 class="yas-font title">方案三：利用固定的高度模拟表格</h4>
+        <div class="container">
+            <div class="demo3">
+                <p>Hello World</p>
+                <p>Hello World</p>
+                <p>Hello World</p>
+            </div>
+        </div>
+        <div class="tip yas-font">不适合IE浏览器</div>
+
+        <!--方案4-->
+        <h4 class="yas-font title">方案四：IE环境下的居中方式</h4>
+        <div class="container">
+            <div class="yas-ie-demo1">
+                <div class="yas-ie-demo2">
+                    <div class="yas-ie-demo3">
+                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+                        Maecenas dignissim diam eu sem. Proin nunc ante, accumsan sollicitudin,
+                        sodales at, semper sed, ipsum. Etiam orci. Vestibulum magna lectus, venenatis nec,
+                        tempus ac, dictum vel, lorem.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tip yas-font">利用IE的hack处理,适用IE7和IE7以下版本</div>
+
+        <!--方案5-->
+        <h4 class="yas-font title">方案五：完美解决方案，适用大部分主流浏览器</h4>
+        <div class="container demo5">
+            <div class="yas-ie-demo1">
+                <div class="yas-ie-demo2">
+                    <div class="yas-ie-demo3">
+                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+                        Maecenas dignissim diam eu sem. Proin nunc ante, accumsan sollicitudin,
+                        sodales at, semper sed, ipsum. Etiam orci. Vestibulum magna lectus, venenatis nec,
+                        tempus ac, dictum vel, lorem.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tip yas-font">利用IE的hack处理,适用IE7和IE7以下版本</div>
+
+    </body>
+</html>

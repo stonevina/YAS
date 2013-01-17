@@ -9,9 +9,15 @@ var yas = yas || {};
 
 yas.ajax = {
 	/**
+	 function(options) {
+	
+	 //请求参数
+	options = {};
+	
+	/**
 	 * 创建XMLHttpRequest
 	 */
-	getXHR : function() {
+	var getXHR =
 		if(XMLHttpRequest == undefined) {
 			XMLHttpRequest = function() {
 				return new ActiveXObject(
@@ -22,4 +28,5 @@ yas.ajax = {
 		}
 		return new XMLHttpRequest();
 	}
+};;
 };

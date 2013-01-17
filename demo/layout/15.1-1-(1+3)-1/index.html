@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>2列左窄右宽高度自适应且未知高度底部平齐型 + 头部 + 导航 + 尾部</title>
+        <link rel="stylesheet" href="layout.css">
+    </head>
+    <body>
+        <div class="yas-container">
+            <div class="yas-header"></div>
+            <div class="yas-menu"></div>
+            <div class="yas-content">
+                <div class="yas-sidebar yas-left">
+                    Hello World!!<br>
+                    Hello World!!<br>
+                    Hello World!!<br>
+                    Hello World!!<br>
+                </div>
+                <div class="yas-main yas-right">
+                    对于底部平齐型，目前采用背景图片的方法是最简单和快捷的方法了。<br>
+                    制作一个和sidebar宽度相同、颜色相同的1px高背景图片，把它应用在mainContent上，然后向y轴方向重复，
+                    采用欺骗的方式来实现未知高度底部平齐，当然还有很多种其它的解决方法。细心的朋友可能已经发现，
+                    在mainContent样式表里有个 overflow:auto;zoom:1;的属性，overflow:auto;是让mainContent来自适应内部容器的高度，zoom:1;
+                    是为了兼容IE6而使用的CSS HACK。zoom:1;通不过W3C的验证，这也是遗憾的一点，
+                    幸好IE支持 &lt;!--[if IE]&gt;这种写法，可以专门针对IE来写单独的样式，所以可以把这个属性写在页面内的&lt;!--[if IE]&gt;中，
+                    这样应该可以通过验证了。
+                </div>
+            </div>
+            <!-- 清除浮动 -->
+            <div class="yas-clear"></div>
+            <div class="yas-footer"></div>
+        </div>
+    </body>
+</html>

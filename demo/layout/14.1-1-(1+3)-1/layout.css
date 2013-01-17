@@ -1,0 +1,74 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+}
+
+/**
+*在IE的quirks的模式下，margin：0 auto;居中失效
+*解决方法：body { text-align: center }; # { content: text-align: left }
+**/
+# {
+    content: text-align: left
+}
+
+.yas-left {
+    float: left;
+}
+
+.yas-right {
+    float: right;
+}
+
+/**
+*清除浮动
+**/
+.yas-clear {
+    clear: both;
+}
+
+.yas-container {
+    width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.yas-header {
+    height: 50px;
+    background-color: #f89406;
+}
+
+.yas-menu {
+    height: 20px;
+    margin: 5px auto;
+    background-color: #387038;
+}
+
+/**
+*父元素不定义高度，高度采用自适应
+**/
+.yas-content {
+
+}
+
+/**
+*子元素高度自适应
+**/
+.yas-sidebar {
+    width: 200px;
+    background-color: #43CD80;
+}
+
+/**
+*高度自适应，依靠内部内容决定高度
+**/
+.yas-main {
+    width: 695px;
+    background-color: #4876FF;
+}
+
+.yas-footer {
+    height: 50px;
+    margin-top: 5px;
+    background-color: #C6E746;
+}

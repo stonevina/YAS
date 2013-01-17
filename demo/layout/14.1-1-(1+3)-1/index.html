@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>2列左窄右宽、高度自适应 + 头部 + 导航 + 尾部</title>
+        <link rel="stylesheet" href="layout.css">
+    </head>
+    <body>
+        <div class="yas-container">
+            <div class="yas-header"></div>
+            <div class="yas-menu"></div>
+            <div class="yas-content">
+                <div class="yas-sidebar yas-left">
+                    Hello World!!<br>
+                    Hello World!!<br>
+                    Hello World!!<br>
+                    Hello World!!<br>
+                    Hello World!!<br>
+                    Hello World!!<br>
+                    Hello World!!<br>
+                    Hello World!!<br>
+                </div>
+                <div class="yas-main yas-right">
+                    需要添加clear:both，防止当mian的高度小于sidebar时，<br>
+                    footer浮动到右侧，造册页面错乱<br>
+                    <p>兼容IE6 3像素bug方法：使用左浮动和右浮动;使用margin-left： 205px !important;margin-left: 202px方式</p>
+                    Hello World!!<br>
+                    Hello World!!<br>
+                    Hello World!!<br>
+                    Hello World!!<br>
+                </div>
+            </div>
+            <!-- 清除浮动 -->
+            <div class="yas-clear"></div>
+            <div class="yas-footer"></div>
+        </div>
+    </body>
+</html>

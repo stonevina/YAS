@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>2列左侧固定右侧自适应宽度，未知高度 + 头部 + 导航 + 尾部</title>
+        <link rel="stylesheet" href="layout.css">
+    </head>
+    <body>
+        <div class="yas-container">
+            <div class="yas-header"></div>
+            <div class="yas-menu"></div>
+            <div class="yas-content">
+                <div class="yas-sidebar yas-left">
+                    Hello World!!<br>
+                    Hello World!!<br>
+                    Hello World!!<br>
+                    Hello World!!<br>
+                </div>
+                <div class="yas-main">
+                    此例中需要说明一点的是：当content设定高度后，3像素会跑到content外侧，反之，在content内部。这样，
+                    我们用!important修正在ie下向左多浮动2像素，加上3像素的bug正好是5像素，所以在火狐和IE下显示是一样的，
+                    这是大家必须注意的一点。而当content设定高度后，如100px，那么在IE6下，当高度超过100px时，它会自动把conent撑高，
+                    而火狐去不会。所以用!important修正在IE下设定高度值使它的3像素跑到外侧，火狐下因不存在3像素问题，所以高度自动。
+                    Hello World!!<br>
+                    Hello World!!<br>
+                    Hello World!!<br>
+                    Hello World!!<br>
+                </div>
+            </div>
+            <!-- 清除浮动 -->
+            <div class="yas-clear"></div>
+            <div class="yas-footer"></div>
+        </div>
+    </body>
+</html>

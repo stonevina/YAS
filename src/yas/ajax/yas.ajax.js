@@ -13,7 +13,24 @@ yas.ajax = {
 	
 	 //请求参数
 	options = {};
-	
+
+		//HTTP请求类型
+		type : options.type || 'POST',
+		//请求地址
+		url  : options.url || '',
+		//请求的超时时间
+		timeout : options.timeout || 5000,
+		//请求是否异步
+		async : options.async || true,
+		
+		//定义请求完成、成功、失败的回调函数
+		onComplete : options.onComplete || function() {},
+		onSuccess  : options.onSuccess || function() {},
+		onError    : options.onError || function() {},
+		
+		//请求参数
+		data : options.data || ''
+		
 	/**
 	 * 创建XMLHttpRequest
 	 */
@@ -29,4 +46,8 @@ yas.ajax = {
 		return new XMLHttpRequest();
 	}
 };;
+};
+	//创建XmlHttpRequest对象
+	var xhq = getXHR();
+	xhq.open(options.type, options.url, options.async);
 };

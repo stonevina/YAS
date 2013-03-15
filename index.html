@@ -5,10 +5,32 @@
 		<title>yas测试用例</title>
 		<link rel="stylesheet" href="lib/qunit/qunit-1.10.0.css">
         <script src="lib/qunit/qunit-1.10.0.js"></script>
+		<script src="src/yas/lang/yas.util.js"></script>
 		<script src="src/yas/browser/yas.browser.js"></script>
+		<script src="src/yas/dom/yas.dom.js"></script>
 		<script src="test/browser/yas.browser.test.js"></script>
 	</head>
 	<body>
 		<div id="qunit"></div>
+		<div id="parent">
+			<div id="child">
+				<span>span1的文本</span>
+			</div>
+			<div id="child2">
+				<span>span2的文本</span>
+			</div>
+			文本数据
+		</div>
+		<div id="parent2" class="style_01">
+			<div id="child3">
+				style_01的样式
+			</div>
+		</div>
+		<div id="parent3" class="style_02">style_02的样式</div>
+		<script>
+			var element = yas.dom.createElement('div', {id : 'new_1', usemap : '333'});
+			yas.dom.getElement('parent2').appendChild(element);
+			alert(yas.dom.getAncestorByClass('child3', 'style_01').id);
+		</script>
 	</body>
 </html>

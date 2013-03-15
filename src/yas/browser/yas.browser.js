@@ -1,6 +1,7 @@
 /**
  * @fileOverview yas判断浏览器的类型以及版本、平台类型
- * Ta直接使用ZKS的代码* @description 常见浏览器内核
+ * 直接使用ZKS的代码
+ * @description 常见浏览器内核
  * <ul>
  * 	<li>Trident(IE内核)</li>
  * 	<li>Gecko(FF内核)</li>
@@ -13,7 +14,6 @@
  */
 var yas = yas || {};
 
-yas.browser = {
 var client = function(){
 
     //rendering engines

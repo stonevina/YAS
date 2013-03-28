@@ -1,3 +1,6 @@
+//import yas.browser.js
+//import yas.util.js
+
 /**
  * @fileOverview yas DOM方法
  * @fileOverview http://www.w3school.com.cn/ajax/ajax_xmlhttprequest_create.asp
@@ -12,7 +15,12 @@ var yas = yas || {};
 
 yas.dom = {
 	/**
-	 * 将用户自定义的属性转化为标准属性
+	 * 将用户自定��用节点类型
+	 * @type 
+	 */
+	NODE_TYPE : {
+		
+	},�用户自定义的属性转化为标准属性
 	 * @return {Ojbect} 标准属性集合
 	 */
 	_NAME_ATTR : (function() {
@@ -272,5 +280,80 @@ yas.dom = {
 		});
 		
 		return element;
+	}
+};,
+	/**
+	 * 返回当前元素所在的文档节点
+	 * @param {String|HTMLElement} element 当前元素
+	 * @return {HTMLDocument} 返回文档节点,文档自身返回为null document.ownerDocument=null
+	 */
+	getDocument : function(element) {
+	 	element = this.getElement(element);
+	 	
+	 	return element.nodeType == 9 ? element : element.ownerDocument;
+	},
+	/**
+	 * 获取目标元素的目标属性计算css值
+	 * @description getComputedStyle详见 http://blog.csdn.net/bill200711022/article/details/7744293 目标元素
+	 * @param {String} direction 搜索方向,可选项(previousSkey 目标属性
+	 * @return {String} 对应计算属性值, 没有返回null
+	 */
+	getComputedStyle : function(element, key) {
+		element = this.getElement(element);
+		
+		var doc = this.getDocument(element), styles;
+		//document.defaultView返回window
+		if(doc.defaultView && doc.defaultView.getComputedStyle) {
+			styles = doc.defaultView.getComputedStyle(element, null);
+			return !!styles.length ? (style[key] || styles.getPropertyValue(key)) : null;
+		}
+	},
+	/**
+	 * 获取目标元素的当前样式
+	 * @description style,currentStyle,computedStyle的区别,详见http://www.zhangxinxu.com/wordpress/2012/05/getcomputedstyle-js-getpropertyvalue-currentstyle/
+	 * getPropertyValue不支持驼峰取值，style,currrentStyle需要使用驼峰形式，同时还有一些属性需要特殊处理，例如float，border等
+	 * style取得是内嵌样式,取不到内联样式 目标元素
+	 * @param {String} direction 搜索方向,可选项(previousSkey 目标属性
+	 * @return {String} 对应的属性值，没有则返回null
+	 */
+	getCurrentStyle : function(element, key) {
+		element = this.getElement(element);
+		
+		return element.style[key] || element.currentSytle ? element.currrentStyle[key] : this.getComputedStyle(element, key);
+	},
+	/**
+	 * 获取目标元素的样式值, 目标元素
+	 * @param {String} direction 搜索方向,可选项(previousSkey 目标属性
+	 */
+	getStyle : function(element, key) {
+		//TODO:暂时么处理特殊的属性
+		return this.getCurrentStyle(element, key) || (/**特殊的属性**/function() {
+			
+		})();
+	},
+	/**
+	 * 返回目标元素的父节点
+	 * Document > Node > Element
+	 * @description 这个方法可以用getAncestorBy替代,暂时先保留
+	 * @param {String|HTMLElement} element 目标元素
+	 * @return {HTMLElement} 父节点，没有则返回null
+	 */
+	getParent : function(element) {
+		element = this.getElement(element);
+		
+		//parentElement是IE专用
+		return element.parentNode || element.parentElement || null;
+	},
+	/**
+	 * 返回元素的节点内容
+	 * @param {String|HTMLElement} element 目标元素
+	 * @return {String} 文本内容
+	 */
+	getText : function(element) {
+		element = this.getElement(element);
+		
+		var type = element.nodeType, i = 0, children, text;
+		
+		if(type == )
 	}
 };

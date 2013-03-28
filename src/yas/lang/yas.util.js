@@ -80,4 +80,17 @@ yas.util = {
 		
 		return source.replace(trimReg[location], '');
 	}
+};,
+	/**
+	 * 将字符串进行驼峰处理,目前支持-和_两种形式,特殊字符后的字母大写
+	 * @param {String} source 目标字符串
+	 * @return {String} 处理为驼峰的字符串,不符合条件的直接返回原字符串
+	 */
+	toCamelCase : function(source) {
+		var reg = /[-_][^-_]/g;
+		
+		return !!source.match(reg) ? source.replace(reg, function(match) {
+			return match.toString().charAt(1).toUpperCase();
+		}) : source;
+	}
 };

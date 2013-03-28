@@ -1,0 +1,68 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-size: 12px;
+}
+
+a {
+	display: block;
+	color: white;
+	width: 185px;
+	text-align: center;
+	text-decoration: none;
+}
+
+a:hover {
+	color: white;
+	background: #C00;
+}
+
+/*主菜单样式*/
+#nav {
+	line-height: 40px;
+	list-style-type: none;
+	background-color: #404040;
+	margin-left: 100px;
+}
+
+/*一级菜单样式*/
+#nav li {
+	float: left;
+	width: 185px;
+	font-family: "微软雅黑", "Times New Roman", Georgia, Serif;
+	font-size: 14px;
+	border-right: 1px solid gray;
+	background: #404040;
+}
+
+/*二级菜单列表的样式*/
+#nav li ul {
+	line-height: 35px;
+	position: absolute;
+	list-style-type: none;
+	text-align: center;
+	display: none;
+	width: 185px; /*很有趣的属性,该属性可以改变下拉列表显示方式,185为宽度表示单位宽 185*2时则下拉列表列为2显示*/
+}
+
+/*二级菜单项的样式*/
+#nav li ul li {
+	background: #CCC;
+	border: 0px solid white;
+}
+
+/*二级菜单项中的超链接*/
+#nav li ul a {
+	width: 185px;
+	text-align: center;
+	font-size: 12px;
+	color: #F6F6F6;
+}
+
+/*鼠标移动到一级菜单后应用的样式*/
+#nav li:hover ul {
+    display: block;
+}

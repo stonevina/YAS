@@ -1,7 +1,7 @@
 /**
  * 主要总结下js中常见的技巧，常见问题，经典案例
  * @author wt
- * @since 2013-3-11
+ * @sinversion 1.0* @since 2013-3-11
  */
 var yas = {
 	/**
@@ -174,7 +174,9 @@ var yas = {
 	example_5 : function() {
 		function setName(obj) {
 			obj.name = 'test1';
-			//这里对象的引用已经改变，不是之前的地址值，所以不是修改原始地址值所指的的对象内容
+			//这里对象的引用已经改变，不是之前的地址值，所以不是修改原�,引用
+	 */
+	reference_use��的对象内容
 			obj = {};
 			obj.name = 'test2';
 		}
@@ -182,5 +184,110 @@ var yas = {
 		var person = {};
 		window.setName(person);
 		console.info(person.name);//test1，不是test2
+	}
+};,
+	/**
+	 * 总结下splice、slice、sub、substr、substring的区别
+	 */
+	example_6 : function() {
+		var array = [1,2,2,3,4,5,6];
+		
+		//从一个数组中移除一个或多个元素，如果必要，在所移除元素的位置上插入新元素，返回所移除的元素。
+		//arrayObj.splice(start, deleteCount, [item1[, item2[, . . . [,itemN]]]])
+		array.splice(0,2,8);//[1,2],array = [8, 2, 3, 4, 5, 6]
+		array.splice(0,2,8,9);//[1,2],array = [8, 9, 2, 3, 4, 5, 6]
+		
+		//返回一个数组的一段
+		//arrayObj.slice(start, [end])
+		array.slice(0, 3);//[1,2,2]
+		
+		//将 HTML 的 <SUB> 标识放置到 String 对象中的文本两端。
+		'test'.sub();//<sub>test</sub>
+		
+		//返回一个从指定位置开始的指定长度的子字符串。
+		//stringvar.substr(start [, length ])
+		var str = 'Hello World!!';
+		str.substring(0, 4);//Hell
+		
+		//返回位于 String 对象中指定位置的子字符串。 
+		//stringvar.substring(start, end)
+		//	substring 方法将返回一个包含从 start 到最后（不包含 end ）的子字符串的字符串。
+		//		
+		//	substring 方法使用 start 和 end 两者中的较小值作为子字符串的起始点。例如， strvar.substring(0, 3) 和 strvar.substring(3, 0) 将返回相同的子字符串。 
+		//		
+		//	如果 start 或 end 为 NaN 或者负数，那么将其替换为0。 
+		//		
+		//	子字符串的长度等于 start 和 end 之差的绝对值。例如，在 strvar.substring(0, 3) 和 strvar.substring(3, 0) 返回的子字符串的的长度是 3。 
+		str.substring(3, 7);//lo W
+	},
+	/**
+	 * callee方法的使用，使用递归的方式进行测试,它是指返回当前正在执行的函数
+	 * 在测试的时候发现，同样一段程序，chrome的V8貌似不及FF啊！！
+	 */
+	callee_use : function() {
+		//计算开始时间
+		var t1 = new Date().getMilliseconds();
+		var sum = function(n) {
+			return n == 1 ? 1 : n + sum(n-1);
+		};
+		sum(3000);
+		//计算结束时间
+		var t2 = new Date().getMilliseconds();
+		console.info('计算时间为：' + parseInt(t2 - t1, 10) + 'ms');//chrome 下2ms
+		
+		///<>------------------------华丽的分割线-------------------------------------------
+		
+		//计算开始时间
+		var t1 = new Date().getMilliseconds();
+		var sum = function(n) {
+			return n == 1 ? 1 : n + arguments.callee(n-1);
+		};
+		sum(3000);
+		//计算结束时间
+		var t2 = new Date().getMilliseconds();
+		console.info('计算时间为：' + parseInt(t2 - t1, 10) + 'ms');//chrome 下1ms
+	},
+	/**
+	 * this的使用方式,分两种方式，一种是单纯的字面量，一种是原型链
+	 */
+	this_use : function() {
+		//字面量
+		var Test = {
+			progress : 'old',
+			start : function() {
+				this.progress = 'new';
+			}
+		};
+		var test = Test.start;
+		//当前this指向的是window对象,window.progress == 'new'
+		test();// == window.test();test.call(Test)可以将当前this强制指向Test，则Test.progress == new 
+		console.info(test.hasOwnProperty('progress'))//false
+		console.info(Test.progress);//old
+		
+		//字面量
+		var Test = {
+			progress : 'old',
+			start : function() {
+				this.progress = 'new';
+			}
+		};
+		Test.start();
+		console.info(Test.progress);//new
+		
+		//原型链,this指向的是对象
+		var Test = function() {};
+		Test.prototype = {
+			progress : 'old',
+			start : function() {
+				//可以为对对象添加一个属性
+				this.progress = 'new';
+			}
+		};
+		
+		var test = new Test();
+		test.start();
+		console.info(test.progress);//new
+		console.info(test.hasOwnProperty('progress'));//true
+		console.info(test.hasOwnProperty('start'));//false
 	}
 };

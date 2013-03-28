@@ -1,0 +1,36 @@
+.red, .green, .blue {
+	height: 120px;
+	width: 120px;
+	line-height: 120px;
+	text-align: center;
+	position: absolute;
+}
+
+.red {
+	left: 50px;
+	top: 50px;
+	background-color: red;
+	z-index: 1;
+}
+
+.green {
+	left: 100px;
+	top: 100px;
+	background-color: green;
+}
+
+.blue {
+	left: 150px;
+	top: 150px;
+	background-color: blue;
+}
+
+/***********************************************
+尝试使红色<span>元素堆在蓝色和绿色<span>的后面，不要打破以下规则：
+	不要以任何方式改变XHTML标记
+	不要添加/修改任何元素的z-index属性
+	不要添加/修改任何元素的position属性
+**/
+div:first-child {
+	opacity: .99;
+}

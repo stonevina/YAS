@@ -93,4 +93,22 @@ yas.util = {
 			return match.toString().charAt(1).toUpperCase();
 		}) : source;
 	}
+};,
+	/**
+	 * 判断一个对象是否是非数字
+	 * @param {Object} 目标对象
+	 * @return {Boolean} 是否是数字
+	 */
+	isNaN : function(obj) {
+		return obj == null || !(/\d/.test(obj)) || isNaN(obj);
+	},
+	/**
+	 * 将目标字符串中影响正则表达式的字符进行转义，在其前增加\
+	 * 需要处理的字符为.*+?^=!:${}()|[]/\
+	 * @param {String} source 目标字符串
+	 * @return {String} 转义后的字符串
+	 */
+	escapeReg : function(source) {
+		return source.toString().replace(new RegExp('[.*+?^=!:\x24{}|[\\]\/\\\\]', 'g'), '\\\x241');
+	}
 };

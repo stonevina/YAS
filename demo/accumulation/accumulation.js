@@ -290,4 +290,48 @@ var yas = {
 		console.info(test.hasOwnProperty('progress'));//true
 		console.info(test.hasOwnProperty('start'));//false
 	}
+};,
+	/**
+	 * toString()方法的使用
+	 * ECMAScript 规定Boolean、Number、String等都是伪对象，所有对象都有toString的方法
+	 */
+	toString_use : function() {
+		//Boolean类型的toString()，只输出true or false
+		var bFound = false;
+		console.info(bFound.toString());//"false"
+		
+		//Number类型具有两种模式，默认模式和基模式
+		var iNum1 = 10;
+		//默认模式 == toString(10)
+		iNum1.toString();//10
+		//基模式，可以指定机制
+		iNum1.toString(2);//"1010"
+		iNum1.toString(10);//"10"
+		iNum1.toString(16);//"a"
+		
+		//Array，toString()方法和join()返回的结果相同
+		var array = [1,2,3];
+		array.toString();//"1,2,3"
+	},
+	/**
+	 * AscII码的使用方法
+	 */
+	ascII_use : function() {
+		var test = 'ab';
+		var code = test.charCodeAt(0);//97
+		String.fromCharCode(code);//"a"
+	},
+	/**
+	 * isPrototypeOf的使用方法,
+	 * 返回一个布尔值，指出对象是否存在于另一个对象的原型链中
+	 */
+	isPrototypeOf_use : function() {
+		var i = 'a', m = String('b'), n = new String('c');
+		console.info(String.prototype.isPrototypeOf(i));//false
+		console.info(String.prototype.isPrototypeOf(m));//false
+		console.info(String.prototype.isPrototypeOf(n));//true
+		
+		//i.constructor == function String() {[native code]};
+		console.info(i.constructor == m.constructor && m.constructor == n.constructor);//true
+	}
 };

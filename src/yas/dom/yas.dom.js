@@ -15,12 +15,11 @@ var yas = yas || {};
 
 yas.dom = {
 	/**
-	 * 将用户自定��用节点类型
+	 * 常用节点类型
 	 * @type 
 	 */
 	NODE_TYPE : {
-		
-	},��/**
+		/**
 		 * 元素节点
 		 * @type Number
 		 */
@@ -49,7 +48,10 @@ yas.dom = {
 		 * document对象
 		 * @type Number
 		 */
-		Document : 9�户自定义的属性转化为标准属性
+		Document : 9
+	},
+	/**
+	 * 将用户自定义的属性转化为标准属性
 	 * @return {Ojbect} 标准属性集合
 	 */
 	_NAME_ATTR : (function() {
@@ -85,7 +87,7 @@ yas.dom = {
 		element = this.getElement(element);
 		
 		for(var node = element[start]; node; node = node[direction]) {
-			if(node.nodeType == 1) {
+			if(node.nodeType == this.NODE_TYPE.Element) {
 				return node;
 			}
 		}
@@ -93,7 +95,7 @@ yas.dom = {
 		return null;
 	},
 	/**
-this.NODE_TYPE.Element * 从文档获取指定的DOM元素
+	 * 从文档获取指定的DOM元素
 	 * @param {String|HTMLElement} id 元素标识ID或者DOM元素
 	 * @return {HTMLElement|null} 返回的DOM元素
 	 */
@@ -104,14 +106,15 @@ this.NODE_TYPE.Element * 从文档获取指定的DOM元素
 			return document.getElementById(id);
 		} else {
 			//nodeType= {元素element	 : 1, 属性attr ： 2, 文本text : 3, 注释comments : 8, 文档document : 9};
-			if(id.nodeName && (id.nodeType == 1 || id.nodeType == 9)) {
+			if(id.nodeName && (id.nodeType == this.NODE_TYPE.Element || id.nodeType == this.NODE_TYPE.Document)) {
 				return id;
 			}
 		}
 		return null;
 	},
 	/**
-	 *this.NODE_TYPE.Element || id.nodeType == this.NODE_TYPE.Document@param {String} 创建的元素标签
+	 * 创建新元素
+	 * @param {String} 创建的元素标签
 	 * @param {Object} 创建元素所附带的属性
 	 * @return {HTMLElement} 创建的新元素
 	 */
@@ -267,7 +270,7 @@ this.NODE_TYPE.Element * 从文档获取指定的DOM元素
 		element = this.getElement(element);
 		
 		//将多个条件放在while中可以减少不必要的循环
-		while((element = element.parentNode) && element.nodeType == 1) {
+		while((element = element.parentNode) && element.nodeType == this.NODE_TYPE.Element) {
 			if(method(element)) {
 				return element;
 			}
@@ -278,7 +281,7 @@ this.NODE_TYPE.Element * 从文档获取指定的DOM元素
 	/**
 	 * 返回目标元素指定className的父元素
 	 * @description 常见字符表示，百度很喜欢用编码表示特殊字符
-	 * 常见如下：\x24 this.NODE_TYPE.Element $,\xa0 = " ",\u3000 = "　",\t = "	"
+	 * 常见如下：\x24 = $,\xa0 = " ",\u3000 = "　",\t = "	"
 	 * @param {String|HTMLString} element 目标元素
 	 * @param {String} className 匹配的class属性
 	 * @return {HTMLElement} 匹配元素，没有则返回null
@@ -308,17 +311,9 @@ this.NODE_TYPE.Element * 从文档获取指定的DOM元素
 		});
 		
 		return element;
-	}
-};,
+	},
 	/**
-	 * 返回当前元素所在的文档节点
-	 * @param {String|HTMLElement} element 当前元素
-	 * @return {HTMLDocument} 返回文档节点,文档自身返回为null document.ownerDocument=null
-	 */
-	getDocument : function(element) {
-	 	element = this.getElement(element);
-	 	
-	 	re根据类名获取元素
+	 * 根据类名获取元素
 	 * @param {String} className 类型，只支持单一class，如果为空，则返回空数组
 	 * @param {String|HTMLElement} element 开始搜索的元素，不设置则默认使用document，找不到元素则返回空数组
 	 * @param {String} tagName 标签名，可选项，不设置则在所有元素中遍历
@@ -371,15 +366,24 @@ this.NODE_TYPE.Element * 从文档获取指定的DOM元素
 			}
 		}
 		
-		return resulelement);
+		return result;
+	},
+	/**
+	 * 返回当前元素所在的文档节点
+	 * @param {String|HTMLElement} element 当前元素
+	 * @return {HTMLDocument} 返回文档节点,文档自身返回为null document.ownerDocument=null
+	 */
+	getDocument : function(element) {
+	 	element = this.getElement(element);
 	 	
-	 	return element.nodeType == 9 ? element : element.ownerDocument;
+	 	return element.nodeType == this.NODE_TYPE.Document ? element : element.ownerDocument;
 	},
 	/**
 	 * 获取目标元素的目标属性计算css值
-	 * @description getComputedStyle详见 http://blog.csdn.net/bill200711022/article/details/7744293 目标元素
-	 * @param {String} direction 搜索方向,可选项(previousSkey 目标属性
-	this.NODE_TYPE.Document* @return {String} 对应计算属性值, 没有返回null
+	 * @description getComputedStyle详见 http://blog.csdn.net/bill200711022/article/details/7744293
+	 * @param {String|HTMLElement} element 目标元素
+	 * @param {String} key 目标属性
+	 * @return {String} 对应计算属性值, 没有返回null
 	 */
 	getComputedStyle : function(element, key) {
 		element = this.getElement(element);
@@ -392,31 +396,40 @@ this.NODE_TYPE.Element * 从文档获取指定的DOM元素
 		}
 	},
 	/**
-	 * 获取目标元素的当前样式
-	 * @description style,currentStyle,computedStyle的区别,详见http://www.zhangxinxu.com/wordpress/2012/05/getcomputedstyle-js-getpropertyvalue-currentstyle/
-	 * getPropertyValue不支持驼峰取值，style,currrentStyle需要使用驼峰形式，同时还有一些属性需�当前元素所属的window对象
+	 * 获取当前元素所属的window对象
 	 * @param {String|HTMLElement} element 目标元素
 	 * @return {window} window对象，没有则返回null
 	 */
 	getWindow : function(element) {
 		var doc = this.getDocument(element);
 		//docment.parentWindow目前只适合IE9-，对于其他的浏览器使用defaultView
-		return doc.defaultView || doc.parentWindow || null;�还有一些属性需要特殊处理，例如float，border等
-	 * style取得是内嵌样式,取不到内联样式 目标元素
-	 * @param {String} direction 搜索方向,可选项(previousSkey 目标属性
+		return doc.defaultView || doc.parentWindow || null;
+	},
+	/**
+	 * 获取目标元素的当前样式
+	 * @description style,currentStyle,computedStyle的区别,详见http://www.zhangxinxu.com/wordpress/2012/05/getcomputedstyle-js-getpropertyvalue-currentstyle/
+	 * getPropertyValue不支持驼峰取值，style,currrentStyle需要使用驼峰形式，同时还有一些属性需要特殊处理，例如float，border等
+	 * style取得是内嵌样式,取不到内联样式
+	 * @param {String|HTMLElement} element 目标元素
+	 * @param {String} key 目标属性
 	 * @return {String} 对应的属性值，没有则返回null
 	 */
 	getCurrentStyle : function(element, key) {
 		element = this.getElement(element);
 		
-		return element.style[key] || element.currentSytle ? element.currrentStyle[key] : this.getComputedStyle(element, key);
+		return element.currentSytle ? element.currrentStyle[key] : this.getComputedStyle(element, key) || element.style[key];
 	},
 	/**
-	 * 获取目标元素的样式值, 目标元素
-	 * @param {String} direction 搜索方向,可选项(previousSkey 目标属性
+	 * 获取目标元素的样式值,
+	 * @param {String|HTMLElement} element 目标元素
+	 * @param {String} key 目标属性
 	 */
 	getStyle : function(element, key) {
-		//TODO:暂时么处理特殊的currentSytle ? element.currrentStyle[key] : this.getComputedStyle(element, key) || element.style[key]	},
+		//TODO:暂时么处理特殊的属性
+		return this.getCurrentStyle(element, key) || (/**特殊的属性**/function() {
+			
+		})();
+	},
 	/**
 	 * 返回目标元素的父节点
 	 * Document > Node > Element
@@ -438,11 +451,7 @@ this.NODE_TYPE.Element * 从文档获取指定的DOM元素
 	getText : function(element) {
 		element = this.getElement(element);
 		
-		var type = element.nodeType, i = 0, children, text;
-		
-		if(type == )
-	}
-}; = [];
+		var type = element.nodeType, i = 0, children, text = [];
 		
 		if(type == this.NODE_TYPE.CDATA || type == this.NODE_TYPE.Text) {
 			text.push(element.nodeValue);
@@ -459,8 +468,9 @@ this.NODE_TYPE.Element * 从文档获取指定的DOM元素
 		return text.join('');
 	},
 	/**
-	 * 检测目标元素是否包含指定的属性��素
-	 * @param {String} direction 搜索方向,可选项(previousSibling,nattr 指定的属性
+	 * 检测目标元素是否包含指定的属性
+	 * @param {String|HTMLElement} element 目标元素
+	 * @param {String} attr 指定的属性
 	 * @return {Boolean} 是否包含属性
 	 */
 	hasAttr : function(element, attr) {
@@ -474,8 +484,9 @@ this.NODE_TYPE.Element * 从文档获取指定的DOM元素
 	},
 	/**
 	 * 判断当前元素是否拥有指定属性
-	 * @description 使用原生的方法hasAttribute进行判断��素
-	 * @param {String} direction 搜索方向,可选项(previousSibling,nattr 指定的属性
+	 * @description 使用原生的方法hasAttribute进行判断
+	 * @param {String|HTMLElement} element 目标元素
+	 * @param {String} attr 指定的属性
 	 * @return {Boolean} 是否包含属性
 	 */
 	hasAttribute : function(element, attr) {
@@ -485,8 +496,9 @@ this.NODE_TYPE.Element * 从文档获取指定的DOM元素
 		return element.hasAttribute(attr);
 	},
 	/**
-	 * 判断元素是否拥有指定的className��素
-	 * @param {String} direction 搜索方向,可选项(previousSibling,nclassName 类名，支持多个类名
+	 * 判断元素是否拥有指定的className
+	 * @param {String|HTMLElement} element 目标元素
+	 * @param {String} className 类名，支持多个类名
 	 * @return {Boolean} 是否存在
 	 */
 	hasClass : function(element, className) {
@@ -507,13 +519,14 @@ this.NODE_TYPE.Element * 从文档获取指定的DOM元素
 		return false;
 	},
 	/**
-	 * 隐藏etElement(element);
-		
-		//将多个条件放在while中可以减�return {HTMLElement} 目标元素
+	 * 隐藏元素
+	 * @param {String|HTMLElement} element 目标元素
+	 * @return {HTMLElement} 目标元素
 	 */
-	hideis.getElement(element);
+	hide : function(element) {
+		element = this.getElement(element);
 		
-		var type = element.nodeType, i = 0, chilelement.style.display = 'none';
+		element.style.display = 'none';
 		
 		return element;
 	},
@@ -563,17 +576,17 @@ this.NODE_TYPE.Element * 从文档获取指定的DOM元素
 	
 	},
 	/**
-	 * 返回元素最后一个子元素节点aram {String|HTMLElement} element 目标元素
-	 * @return {String} 文本内容
-	子元素,没有则返回null
+	 * 返回元素最后一个子元素节点
+	 * @param {String|HTMLElement} element 目标元素
+	 * @return {HTMLElement} 子元素,没有则返回null
 	 */
 	last : function(element) {
 		return this._matchNode(element, 'previousSibling', 'lastChild');
 	},
 	/**
-	 * 返回元素紧跟的同级元素节点aram {String|HTMLElement} element 目标元素
-	 * @return {String} 文本内容
-	 ��跟元素,没有则返回null
+	 * 返回元素紧跟的同级元素节点
+	 * @param {String|HTMLElement} element 目标元素
+	 * @return {HTMLElement} 紧跟元素,没有则返回null
 	 */
 	next : function(element) {
 		return this._matchNode(element, 'nextSibling', 'nextSibling');
@@ -653,9 +666,9 @@ this.NODE_TYPE.Element * 从文档获取指定的DOM元素
 		}
 	},
 	/**
-	 * 返回目标元素的同级的前一个元素节点aram {String|HTMLElement} element 目标元素
-	 * @return {String} 文本内容
-	前一个元素节点
+	 * 返回目标元素的同级的前一个元素节点
+	 * @param {String|HTMLElement} element 目标元素
+	 * @return {HTMLElement} 前一个元素节点
 	 */
 	prev : function(element) {
 		return this._matchNode(element, 'previousSibling', 'previousSibling');
@@ -670,8 +683,9 @@ this.NODE_TYPE.Element * 从文档获取指定的DOM元素
 		return element.parentNode && element.parentNode.removeChild(element);
 	},
 	/**
-	 * 移除目标元素指定的class��素
-	 * @param {String} direction 搜索方向,可选项(previousSibling,nclassName 类名，支持多个class，使用空格分割
+	 * 移除目标元素指定的class
+	 * @param {String|HTMLElement} element 目标元素
+	 * @param {String} className 类名，支持多个class，使用空格分割
 	 * @return {HTMLElement} 修改后的元素
 	 */
 	removeClass : function(element, className) {
@@ -694,8 +708,9 @@ this.NODE_TYPE.Element * 从文档获取指定的DOM元素
 		return element;
 	},
 	/**
-	 * 移除样式的指定属性��素
-	 * @param {String} direction 搜索方向,可选项(previousSibling,nproperty 删除的属性
+	 * 移除样式的指定属性
+	 * @param {String|HTMLElement} element 目标元素
+	 * @param {String} property 删除的属性
 	 * @return {HTMLElement} 修改后的元素
 	 */
 	removeStyle : function(element, property) {
@@ -715,8 +730,9 @@ this.NODE_TYPE.Element * 从文档获取指定的DOM元素
 		return element;
 	},
 	/**
-	 * 设置目标元素的样式��素
-	 * @param {String} direction 搜索方向,可选项(previousSibling,nkey 属性
+	 * 设置目标元素的样式
+	 * @param {String|HTMLElement} element 目标元素
+	 * @param {String} key 属性
 	 * @param {String} value 值
 	 * @return {HTMLElement} 目标元素
 	 */
@@ -732,13 +748,14 @@ this.NODE_TYPE.Element * 从文档获取指定的DOM元素
 	
 	},
 	/**
-	 * 显示etElement(element);
-		
-		//将多个条件放在while中可以减�return {HTMLElement} 目标元素
+	 * 显示元素
+	 * @param {String|HTMLElement} element 目标元素
+	 * @return {HTMLElement} 目标元素
 	 */
-	showis.getElement(element);
+	show : function(element) {
+		element = this.getElement(element);
 		
-		var type = element.nodeType, i = 0, chilelement.style.display = '';
+		element.style.display = '';
 		
 		return element;
 	},
@@ -747,15 +764,17 @@ this.NODE_TYPE.Element * 从文档获取指定的DOM元素
 	 * @param {String|HTMLElement} element
 	 * @return {HTMLElement} 目标元素
 	 */
-	toggleis.getElement(element);
+	toggle : function(element) {
+		element = this.getElement(element);
 		
-		var type = element.nodeType, i = 0, chilelement.style.display  = element.style.display == 'none' ? '' : 'none';
+		element.style.display  = element.style.display == 'none' ? '' : 'none';
 		
 		return element;
 	},
 	/**
-	 * 切换类名的添加与删除��素
-	 * @param {String} direction 搜索方向,可选项(previousSibling,nclassName 类名
+	 * 切换类名的添加与删除
+	 * @param {String|HTMLElement} element 目标元素
+	 * @param {String} className 类名
 	 */
 	toggleClass : function(element, className) {
 		if(this.hasClass(element, className)) {

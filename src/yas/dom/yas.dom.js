@@ -610,13 +610,15 @@ yas.dom = {
 	setOpacity : function(element, opacity) {
 		element = this.getElement(element);
 		
+		var ralpha = /alpha\([^)]*\)/i,
+			ropacity = /opacity=([^)]*)/;
 		//IE9+以上支持opacity，不支持filter
 		if(this._isSupporOpacity(element)) {
 			element.style.opacity = opacity;
 		} else {
 			var style = element.style,
 				currentStyle = element.currentStyle,
-				opacity = jQuery.isNaN(value) ? '' : 'alpha(opacity=' + value * 100 + ')',
+				opacity = yas.util.isNaN(opacity) ? '' : 'alpha(opacity=' + opacity * 100 + ')',
 				filter = currentStyle && currentStyle.filter || style.filter || '';
 
 			// IE has trouble with opacity if it does not have layout
@@ -625,7 +627,7 @@ yas.dom = {
 			style.zoom = 1;
 
 			// if setting opacity to 1, and no other filters exist - attempt to remove filter attribute #6652
-			if (value >= 1 && jQuery.trim(filter.replace(ralpha, "")) === "") {
+			if (opacity >= 1 && yas.util.trim(filter.replace(ralpha, "")) === "") {
 
 				// Setting style.filter to null, "" & " " still leave "filter:" in the cssText
 				// if "filter:" is present at all, clearType is disabled, we want to avoid this

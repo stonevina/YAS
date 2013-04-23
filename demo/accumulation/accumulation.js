@@ -334,4 +334,44 @@ var yas = {
 		//i.constructor == function String() {[native code]};
 		console.info(i.constructor == m.constructor && m.constructor == n.constructor);//true
 	}
+};,
+	/**
+	 * 闭包补充应用
+	 */
+	closure_use : function() {
+		//类型一
+		var name = 'The Window';
+		var object = {
+			name : 'My Object',
+			getNameFunc : function() {
+				return function() {
+					return this.name;
+				}
+			}
+		};
+		
+		object.getNameFunc()();//'The Window'，this指的是window
+		
+		//类型二
+		var name = 'The Window'
+		var object = {
+			name : 'My Object',
+			getNameFunc : function() {
+				//使用闭包保留对局部变量的引用
+				var that = this;
+				return function() {
+					return that.name;
+				}
+			}
+		};
+		
+		object.getNameFunc()();//'My Object'
+	},
+	/**
+	 * 深度复制数组对象
+	 * @param {Array} arr
+	 */
+	array_deepCopy_use : function(arr) {
+		return arr.concat(0) || arr.slice(0);
+	}
 };

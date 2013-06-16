@@ -1,7 +1,8 @@
 /**
  * 主要总结下js中常见的技巧，常见问题，经典案例
  * @author wt
- * @sinversion 1.0* @since 2013-3-11
+ * @version 1.0
+ * @since 2013-3-11
  */
 var yas = {
 	/**
@@ -169,14 +170,12 @@ var yas = {
 		})(query);
 	},
 	/**
-	 * 验证对象是地址值传递
+	 * 验证对象是地址值传递,引用
 	 */
-	example_5 : function() {
+	reference_use : function() {
 		function setName(obj) {
 			obj.name = 'test1';
-			//这里对象的引用已经改变，不是之前的地址值，所以不是修改原�,引用
-	 */
-	reference_use��的对象内容
+			//这里对象的引用已经改变，不是之前的地址值，所以不是修改原始地址值所指的的对象内容
 			obj = {};
 			obj.name = 'test2';
 		}
@@ -184,8 +183,7 @@ var yas = {
 		var person = {};
 		window.setName(person);
 		console.info(person.name);//test1，不是test2
-	}
-};,
+	},
 	/**
 	 * 总结下splice、slice、sub、substr、substring的区别
 	 */
@@ -289,8 +287,7 @@ var yas = {
 		console.info(test.progress);//new
 		console.info(test.hasOwnProperty('progress'));//true
 		console.info(test.hasOwnProperty('start'));//false
-	}
-};,
+	},
 	/**
 	 * toString()方法的使用
 	 * ECMAScript 规定Boolean、Number、String等都是伪对象，所有对象都有toString的方法
@@ -333,8 +330,7 @@ var yas = {
 		
 		//i.constructor == function String() {[native code]};
 		console.info(i.constructor == m.constructor && m.constructor == n.constructor);//true
-	}
-};,
+	},
 	/**
 	 * 闭包补充应用
 	 */
@@ -373,5 +369,32 @@ var yas = {
 	 */
 	array_deepCopy_use : function(arr) {
 		return arr.concat(0) || arr.slice(0);
+	},
+	/**
+	 * 汉字和Unicode的相互转化
+	 * dos命令native2ascii
+	 */
+	convert : function() {
+		function ascii(str) {
+			return str.replace(/[^\u0000-\u00FF]/g, function($0) {
+						return escape($0).replace(/(%u)(\w{4})/gi, "\&#x$2;")
+					});
+		}
+		function unicode(str) {
+			return str.replace(/[^\u0000-\u00FF]/g, function($0) {
+						return escape($0).replace(/(%u)(\w{4})/gi, "\\u$2")		
+					});
+		}
+		function reconvert(str) {
+			str = str.replace(/(\\u)(\w{4})/gi, function($0) {
+						return (String.fromCharCode(parseInt((escape($0).replace(
+										/(%5Cu)(\w{4})/g, "$2")), 16)));
+					});
+			str = str.replace(/(&#x)(\w{4});/gi, function($0) {
+						return String.fromCharCode(parseInt(escape($0).replace(
+										/(%26%23x)(\w{4})(%3B)/g, "$2"), 16));
+					});
+			return str;
+		}
 	}
 };

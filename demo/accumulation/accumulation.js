@@ -396,5 +396,29 @@ var yas = {
 					});
 			return str;
 		}
+	},
+	/**
+	 * 对象初始化
+	 */
+	init : function() {
+		({
+		  x: 10,
+		  foo: function () {
+			function bar() {
+			  console.log(x);
+			  console.log(y);
+			  console.log(this.x);//3
+			}
+			with (this) { //1
+			  var x = 20;//所有的变量声明都放置在函数顶部声明,先声明，后执行，此时x y在foo的作用域中已经声明
+			  var y = 30;
+			  bar.call(this);//2
+			}
+		  }
+		}).foo();
+		//undefined 30 20
+		//原因分析：1号位置的this指代的是那个对象，在with执行的过程中，会先在所指的对象中找，所有 x = 20,修改的是 x : 10的值,
+		//y = 30，修改的是foo中的y，在bar中调用的时候，x, y分别指代的是foo中的局部变量，this.x是对象中的x，foo中的x只是声明
+		//未赋值,注明：with会被删除
 	}
 };

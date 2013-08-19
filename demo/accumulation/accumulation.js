@@ -467,5 +467,12 @@ var yas = {
 		} 
 		console.info(x); // 10 
 		console.info(y); // 30
+	},
+	/**
+	 * 创建类
+	 * @return {[type]} [description]
+	 */
+	createClass : function() {
+
 	}
 };

@@ -468,11 +468,22 @@ var yas = {
 		console.info(x); // 10 
 		console.info(y); // 30
 	},
+	//模拟eval
+	_eval : function() {
+		var test = {a : 1}, fe = 'jj';
+		function jj(str) {console.info(str)}
+		//第一个为函数名称，第二个为参数
+		function _eval(fn, data) { 
+		    new Function('return ' + fn)()(data)
+		}
+		_eval(fe ,test);
+	},
 	/**
 	 * 创建类
 	 * @return {[type]} [description]
 	 */
 	createClass : function() {
+
 
 	}
 };

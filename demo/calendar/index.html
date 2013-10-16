@@ -1,0 +1,200 @@
+<!doctype html>
+<html>
+    
+    <head>
+        <meta charset="utf-8">
+        <title>日历</title>
+        <link rel="stylesheet" type="text/css" href="calendar.css"/>
+        <script src="lunar.js" charset="utf-8"></script>
+    </head>
+    
+    <body>
+        <div class="h_calendar_box">
+            <div class="h_calendar" id="set-remind-info">
+                <div id="set-remind-info" class="h_calendar_select e_clear">
+                    <div class="dd">
+                        <dl id="t-year" data-widget="dropdown" style="cursor: auto;">
+                            <dt><div class="text" val="2013">2013年<b></b></div></dt>
+                            <dd style="height: 150px; overflow-y: auto; overflow-x: hidden;">
+                            </dd>
+                        </dl>
+                        <dl id="t-month" data-widget="dropdown" style="cursor: auto;">
+                            <dt><div class="text" val="1">1月<b></b></div></dt>
+                            <dd style="height: 150px; overflow-y: auto; overflow-x: hidden;">
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="h_calendar_week">
+                    <ul class="e_clear">
+                        <li class="week">
+                            日
+                        </li>
+                        <li>
+                            一
+                        </li>
+                        <li>
+                            二
+                        </li>
+                        <li>
+                            三
+                        </li>
+                        <li>
+                            四
+                        </li>
+                        <li>
+                            五
+                        </li>
+                        <li class="week">
+                            六
+                        </li>
+                    </ul>
+                </div>
+                <div class="h_calendar_list">
+                    <ul class="e_clear js-cld-panel" id="cc">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="http://www.hao123.com/js/common/jQuery.1.8.2.min.js" charset="utf-8"></script>
+        <script type="text/javascript">
+
+            var Util = {
+                years : 2100,
+                months : 12,
+                yeartpl : '<a val="{val}" href="javascript:;">{val}年</a>',
+                monthtpl : '<a val="{val}" href="javascript:;">{val}月</a>',
+                $m : $('#t-month dd'),
+                $y : $('#t-year dd'),
+                isYear : function(that) {
+                    return that.parent().parent().is('#t-year');
+                },
+                setMonth : function(month) {
+                    $('#t-month dt div').attr('val', month).html(month + '月' + '<b></b>')
+                },
+                getMonth : function() {
+                    return  $('#t-month dt div').attr('val') - 1;
+                },
+                setYear : function(year) {
+                    $('#t-year dt div').attr('val', year).html(year + '年' + '<b></b>')
+                },
+                getYear : function() {
+                    return  $('#t-year dt div').attr('val');
+                },
+                init : function() {
+                    var yearsarr = [], monthsarr = [], that = this;
+                    for( var i = 1900, l = this.years; i < l; i++) {
+                        var str = this.yeartpl.replace(/{val}/g, i+1);
+                        yearsarr.push(str);
+                    }
+                    for (var j = 0, size = this.months; j < size; j++) {
+                        var str = this.monthtpl.replace(/{val}/g, j+1);
+                        monthsarr.push(str);
+                    };
+
+                    this.$y.append(yearsarr.join(''));
+                    this.$m.append(monthsarr.join(''));
+
+                    $('dl[data-widget="dropdown"]').hover(function() {$(this).find('dd').show()}, function() {$(this).find('dd').hide()});
+                    $('dl[data-widget="dropdown"] dd').on({'click': function() {
+                        Util.isYear($(this)) ? Util.setYear($(this).attr('val')) : Util.setMonth($(this).attr('val'));
+                        date.reInit();
+                    }}, 'a');
+                }
+            };
+            Util.init();
+
+
+            /**
+             * 日历类
+             * @param {Object} date
+             */
+            function Calendar(date){
+                this.date = date ? new Date(+date) : (new Date);
+            }
+
+            Calendar.prototype = {
+                getMonthFirstDate: function(){
+                    var date = new Date(+this.date);
+                    date.setDate(1);
+                    return date;
+                },
+                getCalendarFirstDate: function(isSundayFirst){
+                    var date = this.getMonthFirstDate(), day = date.getDay();
+                    date.setDate(date.getDate() - (isSundayFirst ? day : day == 0 ? -6 : (day - 1)));
+                    return date;
+                }
+            };
+
+            function Day() {
+                this.date = new Date();
+                this.offset = {month : Util.getMonth(), year : Util.getYear()};
+                this.date.setMonth(this.offset.month);
+                this.date.setYear(this.offset.year);
+                this.month = this.date.getMonth();
+                this.year = this.date.getFullYear();
+                //this.count = new Date(this.year, this.month + 1, 0).getDate();
+                this.tpl = '<li class="{monthClass}" date="{date}"><span class="border"></span><div class="solar_date">{solar}</div><div class="lunar_date">{lunar}</div></li>';
+                this.max = 42;
+                this.container = [];
+                this.times = 1;
+                this.cal = new Calendar(this.date);
+                this.firstDay = this.cal.getCalendarFirstDate(true);
+                this.month_firstDay = this.cal.getMonthFirstDate(true);
+                this.month_lastDay = new Date(this.year, this.month + 1, 1);
+                this.today = new Date();
+            }
+
+            /**
+             * 单个时间
+             * @return {[type]} [description]
+             */
+            Day.prototype = {
+                lfday : '初一',
+                _class_fix : function() {
+                    var _class = [];
+                    this.times % 7 == 1 && _class.push('lb');
+                    this.times > 35 && _class.push('bb');
+                    this.month_firstDay.getTime() > this.firstDay.getTime() && _class.push('last_month');
+                    this.month_lastDay.getTime() < this.firstDay.getTime() && _class.push('next_month');
+                    this.today.getDate() == this.firstDay.getDate() && this.today.getDay() == this.firstDay.getDay() 
+                    && this.today.getFullYear() == this.firstDay.getFullYear() 
+                    && this.today.getMonth() == this.firstDay.getMonth() && _class.push('today');
+                    return _class.join(' ');
+                },
+                _format_time : function(y, m, d) {
+                    var tpl = '{y}/{m}/{d}';
+                    return tpl.replace(/{y}/g, y).replace(/{m}/g, m).replace(/{d}/g, d);
+                },
+                _create : function() {
+                    while(this.times <= this.max) {
+                        var obj = new Lunar(this.firstDay), festival = obj.festival(), y = obj.oDate.getFullYear(),
+                            m = obj.oDate.getMonth(), d = obj.oDate.getDate();
+                            dateHtml = this.tpl.replace(/{monthClass}/g, this._class_fix())
+                                .replace(/{date}/g, this._format_time(y, m, d))
+                                .replace(/{solar}/g, obj.oDate.getDate())
+                                .replace(/{lunar}/g, festival.length ?  festival[0].desc : obj.lDate == this.lfday ? obj.lMonth + '月' : obj.lDate);
+                        this.container.push(dateHtml);
+                        this.times++;
+                        this.firstDay.setDate(this.firstDay.getDate() + 1);
+                    }
+                    $('#cc').empty().append(this.container.join(''));
+                    $('#cc li:not(.today)').hover(function() {$(this).toggleClass('hover')}, function() {$(this).toggleClass('hover')})
+                },
+                init : function() {
+                    var that = this;
+                    this._create();
+                },
+                reInit : function() {
+                    var that =  new Day();
+                    this._create.call(that);
+                }
+            }
+
+            var date = new Day();
+            date.init();
+        </script>
+    </body>
+
+</html>

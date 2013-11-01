@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." name="include" default="svn">
+    <!-- all properties are in build.properties -->
+    <property file="${basedir}/build.properties"/>
+	<property name="filepath" value="${work.space}/${ant.project.name}" /> 
+    <!--svn本身需要的运行库 -->
+    <path id="svnant.lib">
+        <pathelement location="${svnjavahl.jar}"/>
+        <pathelement location="${svnant.jar}"/>
+        <pathelement location="${svnClientAdapter.jar}"/>
+    </path>
+	<!--ftp本身需要的运行库 -->
+	<path id="ftp.lib"> 
+		<pathelement location="${dir.classes}" /> 
+		<pathelement location="${dir.jdk}/jre/lib/rt.jar" />	
+		<fileset dir="${dir.lib}"> 
+			<include name="**/*.jar" /> 
+		</fileset>
+	</path> 
+    <!--java EE 1.7 库 -->
+    <path id="javaEE1.7">
+        <fileset dir="${javaEE1.7.lib}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+	<!--清理项目任务(干掉下载目录) -->
+    <target name="clear">
+        <delete dir="${filepath}"/>
+    </target>
+    <!-- load the svn task -->
+    <taskdef name="svn" classname="org.tigris.subversion.svnant.SvnTask" classpathref="svnant.lib"/>
+    <!--svn同步任务-->
+    <target name="svn" depends="clear">
+        <mkdir dir="${filepath}"/>
+        <svn username="***" password="***" javahl="false">
+        	<!--urlRepos svn地址-->
+            <checkout url="${urlRepos}" destPath="${filepath}"/>
+        </svn>
+    </target>
+	<!--远程部署-->
+	<ftp server="${server.ftp.serverIp}" userid="${server.ftp.userId}" password="${server.ftp.password}" remotedir="/home/www">
+		<fileset dir="${work.space}" casesensitive="yes">
+		</fileset>
+	</ftp> 
+</project>
